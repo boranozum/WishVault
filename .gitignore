@@ -1,0 +1,9 @@
+app/static/
+.idea
+__pycache__
+app/media/
+migrations
+*.env
+.DS_Store
+db_data/
+app/venv/

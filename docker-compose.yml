@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: wishvault_db
+    image: postgres:14-alpine
+    volumes:
+      - ./db_data:/pgdata
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - PGDATA=/pgdata
+
+  # app:
+  #   container_name: wishvault_app
+  #   build:
+  #     context: app
+  #     dockerfile: Dockerfile
+  #   image: wishvault_app
+  #   volumes:
+  #     - ./app/.env:/app/.env
+  #     - ./app:/app/
+  #   depends_on:
+  #     - db
+  #   env_file:
+  #     - app/.env
+  #   entrypoint: "/entrypoint/run_dev.sh"
