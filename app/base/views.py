@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 from base.mixins import PaginationMixin, RetrieveMixin
+from base.permissions import BaseModelPermission
 
 
 class BaseViewSet(
@@ -12,6 +13,7 @@ class BaseViewSet(
     ListModelMixin,
     GenericViewSet
 ):
+    permission_classes = (BaseModelPermission,)
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
 
 

@@ -8,4 +8,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'base.pagination.Paginator',
     'PAGE_SIZE': 100,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'EXCEPTION_HANDLER': 'base.exceptions.custom_exception_handler',
 }

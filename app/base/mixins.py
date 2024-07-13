@@ -1,6 +1,5 @@
 import traceback
 
-from django.http import Http404
 from rest_framework.mixins import DestroyModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 
 from base.response import RestResponse
@@ -11,91 +10,48 @@ from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP
 
 class RetrieveMixin(RetrieveModelMixin):
     def retrieve(self, request, *args, **kwargs):
-        try:
-            response = super().retrieve(request, *args, **kwargs)
-            return RestResponse(
-                status=response.status_code,
-                message="",
-                content=response.data
-            )
-        except Http404:
-            return RestResponse(
-                status=HTTP_404_NOT_FOUND,
-                message="No record found"
-            )
-        except:
-            print(traceback.format_exc())
-            return RestResponse(
-                status=HTTP_500_INTERNAL_SERVER_ERROR,
-                message="Failed to retrieve record"
-            )
+        response = super().retrieve(request, *args, **kwargs)
+        return RestResponse(
+            status=response.status_code,
+            message="",
+            content=response.data
+        )
 
 
 class CreateMixin(CreateModelMixin):
     def create(self, request, *args, **kwargs):
-        try:
-            response = super().create(request, *args, **kwargs)
-            return RestResponse(
-                status=response.status_code,
-                message="Record created successfully",
-                content=response.data
-            )
-        except:
-            print(traceback.format_exc())
-            return RestResponse(
-                status=HTTP_500_INTERNAL_SERVER_ERROR,
-                message="Failed to create record"
-            )
+        response = super().create(request, *args, **kwargs)
+        return RestResponse(
+            status=response.status_code,
+            message="Record created successfully",
+            content=response.data
+        )
 
 
 class UpdateMixin(UpdateModelMixin):
     def update(self, request, *args, **kwargs):
-        try:
-            response = super().update(request, *args, **kwargs)
-            return RestResponse(
-                status=response.status_code,
-                message="Record updated successfully",
-                content=response.data
-            )
-        except Http404:
-            return RestResponse(
-                status=HTTP_404_NOT_FOUND,
-                message="No record found"
-            )
-        except Exception as e:
-            print(traceback.format_exc())
-            return RestResponse(
-                status=HTTP_500_INTERNAL_SERVER_ERROR,
-                message="Failed to update record"
-            )
+        response = super().update(request, *args, **kwargs)
+        return RestResponse(
+            status=response.status_code,
+            message="Record updated successfully",
+            content=response.data
+        )
 
 
 class DestroyMixin(DestroyModelMixin):
     def destroy(self, request, *args, **kwargs):
-        try:
-            response = super().destroy(request, *args, **kwargs)
-            return RestResponse(
-                status=response.status_code,
-                message="Record deleted successfully"
-            )
-        except Http404:
-            return RestResponse(
-                status=HTTP_404_NOT_FOUND,
-                message="No record found"
-            )
-        except:
-            print(traceback.format_exc())
-            return RestResponse(
-                status=HTTP_500_INTERNAL_SERVER_ERROR,
-                message="Failed to delete record"
-            )
+        response = super().destroy(request, *args, **kwargs)
+        return RestResponse(
+            status=response.status_code,
+            message="Record deleted successfully"
+        )
 
     @action(detail=True, methods=['delete'], url_path='force_delete')
     def force_delete(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
             instance.delete(force=True)
-        except self.model.DoesNotExist:
+        except self.get_serializer().Meta.model.DoesNotExist:
             return RestResponse(
                 status=HTTP_404_NOT_FOUND,
                 message="No record found"

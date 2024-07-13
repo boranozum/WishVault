@@ -7,6 +7,6 @@ DATABASES = {
         "USER": env('DATABASE_DEFAULT_USER'),
         "PASSWORD": env('DATABASE_DEFAULT_PASSWORD'),
         "HOST": env('DATABASE_DEFAULT_HOST'),
-        "PORT": int(env('DATABASE_DEFAULT_PORT')),
+        "PORT": 5432
     }
 }

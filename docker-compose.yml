@@ -14,17 +14,17 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - PGDATA=/pgdata
 
-  # app:
-  #   container_name: wishvault_app
-  #   build:
-  #     context: app
-  #     dockerfile: Dockerfile
-  #   image: wishvault_app
-  #   volumes:
-  #     - ./app/.env:/app/.env
-  #     - ./app:/app/
-  #   depends_on:
-  #     - db
-  #   env_file:
-  #     - app/.env
-  #   entrypoint: "/entrypoint/run_dev.sh"
+  app:
+    container_name: wishvault_app
+    build:
+      context: app
+      dockerfile: Dockerfile
+    image: wishvault_app
+    volumes:
+      - ./app/.env:/app/.env
+      - ./app:/app/
+    depends_on:
+      - db
+    env_file:
+      - app/.env
+    entrypoint: "/entrypoint/run_dev.sh"

@@ -1,3 +1,4 @@
+from account.models import GlobalPermission
 from base.views import BaseViewSet
 from base.mixins import MultiActionMixin, DestroyMixin, UpdateMixin, CreateMixin
 from product.filters import ProductFilter
@@ -17,6 +18,7 @@ class ProductViewSet(
     search_fields = ['name']
     ordering_fields = ['name', 'price', 'rating', 'created_at']
     ordering = ['name']
+    permission_name = GlobalPermission.PERMISSION_PRODUCT_MANAGEMENT
 
     def get_queryset(self):
         if self.request.user.is_superuser:
