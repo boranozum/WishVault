@@ -13,3 +13,4 @@ class ECommerceSiteViewSet(
     queryset = ECommerceSite.objects.all()
     serializer_class = ECommerceSiteSerializer
     ordering = 'name'
+    search_fields = ['name']

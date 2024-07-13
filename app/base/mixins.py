@@ -1,12 +1,34 @@
 import traceback
 
 from django.http import Http404
-from rest_framework.mixins import DestroyModelMixin, CreateModelMixin, UpdateModelMixin
+from rest_framework.mixins import DestroyModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 
 from base.response import RestResponse
 from rest_framework.decorators import action
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, \
     HTTP_204_NO_CONTENT
+
+
+class RetrieveMixin(RetrieveModelMixin):
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            response = super().retrieve(request, *args, **kwargs)
+            return RestResponse(
+                status=response.status_code,
+                message="",
+                content=response.data
+            )
+        except Http404:
+            return RestResponse(
+                status=HTTP_404_NOT_FOUND,
+                message="No record found"
+            )
+        except:
+            print(traceback.format_exc())
+            return RestResponse(
+                status=HTTP_500_INTERNAL_SERVER_ERROR,
+                message="Failed to retrieve record"
+            )
 
 
 class CreateMixin(CreateModelMixin):

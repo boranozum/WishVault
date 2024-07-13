@@ -51,14 +51,19 @@ class Product(AbstractBaseModel):
         (CURRENCY_EUR, "Euro")
     )
 
-    name = models.CharField(max_length=255, unique=True, verbose_name=_("Product Name"))
+    name = models.CharField(max_length=255, verbose_name=_("Product Name"))
     category = models.CharField(max_length=100, choices=ProductCategoryChoices, default=ProductCategoryUnknown)
     url = models.URLField(null=True)
     price = models.DecimalField(null=True, decimal_places=2, max_digits=10)
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default=CURRENCY_TL)
     sold_at = models.ForeignKey("product.ECommerceSite", on_delete=models.CASCADE, related_name="product_sold_at",
-                                null=True)
+                                null=True, verbose_name=_("E-Commerce Site"))
     rating = models.FloatField(null=True)
+
+    class Meta:
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
+        unique_together = ['name', 'sold_at']
 
     def __str__(self):
         return f"{self.name} - {self.category} - {self.price}"

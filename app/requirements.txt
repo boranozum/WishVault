@@ -1,6 +1,7 @@
 asgiref==3.8.1
 click==8.1.7
 Django==4.2.14
+django-filter==24.2
 django-password-validators==1.7.3
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1

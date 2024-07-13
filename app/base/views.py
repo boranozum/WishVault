@@ -1,24 +1,17 @@
-from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
+from rest_framework.mixins import ListModelMixin
 from rest_framework.viewsets import GenericViewSet
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 
-from base.mixins import PaginationMixin
-from base.response import RestResponse
+from base.mixins import PaginationMixin, RetrieveMixin
 
 
 class BaseViewSet(
     PaginationMixin,
-    RetrieveModelMixin,
+    RetrieveMixin,
     ListModelMixin,
     GenericViewSet
 ):
-    ordering = None
-
-    def retrieve(self, request, *args, **kwargs):
-        response = super().retrieve(request, *args, **kwargs)
-        return RestResponse(
-            status=response.status_code,
-            message="Retrieved successfully",
-            content=response.data
-        )
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
 
 
