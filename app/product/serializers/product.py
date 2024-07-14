@@ -11,3 +11,10 @@ class ProductSerializer(BaseModelSerializer):
 
     class Meta(BaseModelSerializer.Meta):
         model = Product
+        fields = BaseModelSerializer.Meta.fields + [
+            'name',
+            'price',
+            'rating',
+            'sold_at',
+            'sold_at_id',
+        ]

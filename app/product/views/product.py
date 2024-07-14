@@ -1,9 +1,13 @@
 from account.models import GlobalPermission
+from base.response import RestResponse
 from base.views import BaseViewSet
 from base.mixins import MultiActionMixin, DestroyMixin, UpdateMixin, CreateMixin
 from product.filters import ProductFilter
 from product.models import Product
 from product.serializers.product import ProductSerializer
+from rest_framework.decorators import action
+
+from product.utils.product_parser import ProductParser
 
 
 class ProductViewSet(
@@ -39,4 +43,12 @@ class ProductViewSet(
             pass
 
         return super().create(request, *args, **kwargs)
+
+    @action(detail=False, methods=['POST'], url_path='parse')
+    def parse(self, request):
+        return RestResponse(
+            message='Parsed',
+            content=ProductParser().parse(request.data.get('url'))
+        )
+
 

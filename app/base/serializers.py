@@ -11,7 +11,14 @@ class BaseModelSerializer(serializers.ModelSerializer):
     class Meta:
         abstract = True
         model = None
-        fields = '__all__'
+        fields = [
+            'id',
+            'created_at',
+            'updated_at',
+            'created_by',
+            'updated_by',
+            'is_active',
+        ]
         read_only_fields = (
             'id',
             'created_at',
