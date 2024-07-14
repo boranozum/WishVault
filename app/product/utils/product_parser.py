@@ -9,7 +9,7 @@ from django.conf import settings
 
 from base.functions import hash_url, get_price_and_currency
 from product.models import ECommerceSite
-from product.utils.category_predictor import CategoryPredictor
+# from product.utils.category_predictor import CategoryPredictor
 
 
 class ProductParser:
@@ -40,7 +40,7 @@ class ProductParser:
 
         return soup
 
-    def retrieve_attribute(self, scrape_map, root=None):
+    def retrieve_attribute(self, scrape_map, root=None, use_attr=None):
         if root:
             element = root.find(scrape_map['search_tag'], **scrape_map.get('search_attrs', {}))
         else:
@@ -50,9 +50,13 @@ class ProductParser:
             return None
 
         if 'children' in scrape_map:
-            return self.retrieve_attribute(scrape_map['children'], root=element)
+            return self.retrieve_attribute(scrape_map['children'], root=element, use_attr=use_attr)
 
-        text = element.text.strip()
+        if use_attr:
+            text = element.get(use_attr)
+        else:
+            text = element.text.strip()
+
         if text.isnumeric():
             return float(text)
 
@@ -78,6 +82,7 @@ class ProductParser:
         price, currency = get_price_and_currency(self.retrieve_attribute(scrape_map['price']))
         title = self.retrieve_attribute(scrape_map['title'])
         product = {
+            'cover_photo': self.retrieve_attribute(scrape_map['cover_photo'], use_attr='src'),
             'title': title,
             'price': price,
             'currency': currency,

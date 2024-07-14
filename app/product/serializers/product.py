@@ -8,6 +8,7 @@ from product.serializers.e_commerce_site import ECommerceSiteSerializer
 class ProductSerializer(BaseModelSerializer):
     sold_at = ECommerceSiteSerializer(read_only=True)
     sold_at_id = serializers.IntegerField(write_only=True, required=False)
+    cover_photo = serializers.ImageField(required=False)
 
     class Meta(BaseModelSerializer.Meta):
         model = Product
@@ -17,4 +18,5 @@ class ProductSerializer(BaseModelSerializer):
             'rating',
             'sold_at',
             'sold_at_id',
+            'cover_photo'
         ]

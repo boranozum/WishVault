@@ -59,6 +59,7 @@ class Product(AbstractBaseModel):
     sold_at = models.ForeignKey("product.ECommerceSite", on_delete=models.CASCADE, related_name="product_sold_at",
                                 null=True, verbose_name=_("E-Commerce Site"))
     rating = models.FloatField(null=True)
+    cover_photo = models.ImageField(upload_to="product/cover_photos", null=True)
 
     class Meta:
         verbose_name = _("Product")
