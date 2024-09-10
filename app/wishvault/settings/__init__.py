@@ -13,4 +13,5 @@ include(
     "components/project.py",
     "components/debug.py",
     "components/secret.py",
+    "components/cache.py",
 )

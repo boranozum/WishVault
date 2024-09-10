@@ -8,7 +8,9 @@ from bs4 import BeautifulSoup
 from django.conf import settings
 
 from base.functions import hash_url, get_price_and_currency
-from product.models import ECommerceSite
+from product.models import ECommerceSite, Product
+
+
 # from product.utils.category_predictor import CategoryPredictor
 
 

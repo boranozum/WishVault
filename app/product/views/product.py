@@ -46,9 +46,20 @@ class ProductViewSet(
 
     @action(detail=False, methods=['POST'], url_path='parse')
     def parse(self, request):
+        product = ProductParser().parse(request.data.get('url'))
+        name = product.pop("name")
+        sold_at_id = product.pop("sold_at_id")
+        obj = None
+        if name or sold_at_id:
+            obj, _ = Product.objects.update_or_create(
+                name=name,
+                sold_at_id=sold_at_id,
+                defaults=product
+            )
+
         return RestResponse(
             message='Parsed',
-            content=ProductParser().parse(request.data.get('url'))
+            content=obj
         )
 
 

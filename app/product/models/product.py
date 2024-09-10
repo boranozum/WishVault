@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext as _
 
-from base.models import AbstractBaseModel
+from base.models import CachedModelBase
 
 
-class Product(AbstractBaseModel):
+class Product(CachedModelBase):
     ProductCategoryElectronics = "electronics"
     ProductCategoryHomeKitchen = "home_kitchen"
     ProductCategoryFashion = "fashion"

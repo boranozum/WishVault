@@ -1,4 +1,7 @@
 import hashlib
+import redis
+from django.core.cache import cache
+import traceback
 
 
 def hash_url(url):
@@ -22,3 +25,15 @@ def get_price_and_currency(text):
             currency = word.upper()
 
     return price, currency
+
+
+def is_redis_available():
+    try:
+        client = cache.client.get_client()
+        client.ping()
+        return client
+    except redis.ConnectionError:
+        print('Redis connection failed!')
+        print(traceback.format_exc())
+
+    return None
